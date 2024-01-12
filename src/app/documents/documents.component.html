@@ -1,1 +1,51 @@
-<p>documents works!</p>
+<div class="row">
+  <div class="col-2">
+    <ngb-pagination [collectionSize]="documents.count" [(page)]="params.page" [pageSize]="params.pageSize" (pageChange)="getDocuments()" aria-label="Default pagination" />
+  </div>
+  <div class="col-7">
+    <small *ngIf="showSettings">
+      Date Of Creation <input type="checkbox" [(ngModel)]="settings.dateOfCreation">
+      Date Of Recording <input type="checkbox" [(ngModel)]="settings.dateOfRecording">
+      Status <input type="checkbox" [(ngModel)]="settings.status">
+      Transaction Type <input type="checkbox" [(ngModel)]="settings.transactionType">
+      Business Partner <input type="checkbox" [(ngModel)]="settings.businessPartner">
+      Business Partner Location <input type="checkbox" [(ngModel)]="settings.businessPartnerLocation">
+      Year <input type="checkbox" [(ngModel)]="settings.year">
+    </small>
+  </div>
+
+  <div class="col-3">
+    <button class="btn btn-primary" (click)="showSettings=!showSettings" *ngIf="!showSettings">Open Table Settings</button>
+    <button class="btn " (click)="showSettings=!showSettings" *ngIf="showSettings">Close Table Settings</button>
+  </div>
+
+</div>
+
+<div class="row">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" (click)="changeSort('dateOfCreation')" class="text-primary " *ngIf="settings.dateOfCreation">Date Of Creation &DownArrowUpArrow;</th>
+        <th scope="col" (click)="changeSort('dateOfRecording')" class="text-primary" *ngIf="settings.dateOfRecording">Date Of Recording &DownArrowUpArrow;</th>
+        <th scope="col" (click)="changeSort('status')" class="text-primary" *ngIf="settings.status">Status &DownArrowUpArrow;</th>
+        <th scope="col" (click)="changeSort('transactionType')" class="text-primary" *ngIf="settings.transactionType">Transaction Type &DownArrowUpArrow;</th>
+        <th scope="col" *ngIf="settings.businessPartner">Business Partner</th>
+        <th scope="col" *ngIf="settings.businessPartnerLocation">Business Partner Location</th>
+        <th scope="col" *ngIf="settings.year">Year</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let document of documents.results">
+        <td *ngIf="settings.dateOfCreation">{{document.dateOfCreation | date:"MMM dd, yyyy"}} </td>
+        <td *ngIf="settings.dateOfRecording">{{document.dateOfRecording | date:"MMM dd, yyyy"}}</td>
+        <td *ngIf="settings.status">{{document.status}}</td>
+        <td *ngIf="settings.transactionType">{{document.transactionType}}</td>
+        <td *ngIf="settings.businessPartner">{{document.businessPartner.name}}</td>
+        <td *ngIf="settings.businessPartnerLocation">{{document.businessPartner.city}} {{document.businessPartner.address}}</td>
+        <td *ngIf="settings.year">{{document.year}}</td>
+
+      </tr>
+      </tbody>
+      </table>
+</div>
