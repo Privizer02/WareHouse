@@ -36,7 +36,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let document of documents.results">
+      <tr *ngFor="let document of documents.results" [routerLink]="[document._id]">
         <td *ngIf="settings.dateOfCreation">{{document.dateOfCreation | date:"MMM dd, yyyy"}} </td>
         <td *ngIf="settings.dateOfRecording">{{document.dateOfRecording | date:"MMM dd, yyyy"}}</td>
         <td *ngIf="settings.status">{{document.status}}</td>

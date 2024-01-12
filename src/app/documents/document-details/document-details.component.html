@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-4">
+    <p>Transaction Type: {{document.transactionType}}</p>
+    <p>Date Of Creation: {{document.dateOfCreation | date: "MMM dd, yyyy"}}</p>
+    <p *ngIf="document.dateOfRecording">Date Of Recording: {{document.dateOfRecording | date: "MMM dd, yyyy"}}</p>
+  </div>
+  <div class="col-4">
+    <p style="text-decoration: underline;">Business Partner</p>
+    <p>{{document.businessPartner.name}}</p>
+    <p>{{document.businessPartner.city}}, {{document.businessPartner.address}}</p>
+  </div>
+  <div class="col-4">
+    <p>Status: {{document.status}}</p>
+    <button [disabled]="this.document.status=='recorded'" class="btn btn-primary" (click)="onRecord()">Record Document</button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-9">
+    <table class="table">
+      <thead>
+        <title>Document Items</title>
+        <tr>
+          <th scope="col">Article</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let document of documentItem">
+          <td>{{articleName(document.article)}}</td>
+          <td>{{document.price.toFixed(0)}}</td>
+          <td>{{document.quantity}}</td>
+          <td>{{document.price * document.quantity | number: '1.1-2'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-3">
+    <form [formGroup]="form">
+      <h4>Add new item</h4>
+      <div class="form-group">
+        <label for="exampleFormControlSelect1">Article</label>
+        <select class="form-control" id="exampleFormControlSelect1" formControlName="article">
+          <option value=""></option>
+          <option value="{{article.code}}" *ngFor="let article of articles">{{article.name}}</option>
+
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="formGroupExampleInput">Price</label>
+        <input type="number" class="form-control" id="formGroupExampleInput" formControlName="price" >
+      </div>
+      <div class="form-group">
+        <label for="formGroupExampleInput2">Quantity</label>
+        <input type="number" class="form-control" id="formGroupExampleInput2" formControlName="quantity" >
+      </div>
+
+      <button class="btn btn-primary" (click)="addItem()">Save</button>
+    </form>
+  </div>
+
+</div>
+
